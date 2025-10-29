@@ -39,6 +39,19 @@ public class BiomeManager {
                 .collect(Collectors.toList());
     }
 
+    public static List<String> getProvidersForDimension(World.Environment dimension) {
+        return getAllBiomeNamesInDimension(dimension).stream()
+                .map(biomeName -> biomeName.split(":")[0])
+                .distinct()
+                .collect(Collectors.toList());
+    }
+
+    public static List<String> getBiomeNamesForProviderAndDimension(String provider, World.Environment dimension) {
+        return getAllBiomeNamesInDimension(dimension).stream()
+                .filter(biomeName -> biomeName.startsWith(provider + ":"))
+                .collect(Collectors.toList());
+    }
+
     private static boolean isBiomeInDimension(String biomeName, World.Environment dimension) {
         String configDim = NaturalCompass.getInstance().getConfigManager().getBiomeDimensions().get(biomeName);
         if (configDim == null) {

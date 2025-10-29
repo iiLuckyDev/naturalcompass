@@ -48,6 +48,17 @@ public class BiomeExclusionGUI extends PaginatedGUI {
         addBorder();
         addNavigationButtons();
 
+        // Replace next with black glass if no next page
+        if (page >= totalPages - 1) {
+            ItemStack nextPlaceholder = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
+            ItemMeta nextMeta = nextPlaceholder.getItemMeta();
+            if (nextMeta != null) {
+                nextMeta.displayName(Component.text(""));
+                nextPlaceholder.setItemMeta(nextMeta);
+            }
+            inventory.setItem(26, nextPlaceholder);
+        }
+
         int startIndex = page * maxItemsPerPage;
         for (int i = 0; i < maxItemsPerPage; i++) {
             int biomeIndex = startIndex + i;
@@ -61,7 +72,13 @@ public class BiomeExclusionGUI extends PaginatedGUI {
     }
 
     private ItemStack createBiomeItem(String biomeName, boolean excluded) {
-        ItemStack item = new ItemStack(excluded ? Material.BARRIER : Utils.getBiomeIcon(biomeName));
+        ItemStack item;
+        if (excluded) {
+            item = new ItemStack(Material.BARRIER);
+        } else {
+            ItemStack icon = Utils.getBiomeIcon(biomeName);
+            item = icon.clone();
+        }
         ItemMeta meta = item.getItemMeta();
 
         if (meta != null) {

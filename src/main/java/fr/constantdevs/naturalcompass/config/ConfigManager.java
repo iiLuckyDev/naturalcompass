@@ -1,7 +1,11 @@
 package fr.constantdevs.naturalcompass.config;
 
+import com.destroystokyo.paper.profile.PlayerProfile;
+import com.destroystokyo.paper.profile.ProfileProperty;
 import fr.constantdevs.naturalcompass.NaturalCompass;
 import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.SkullMeta;
 import org.spongepowered.configurate.CommentedConfigurationNode;
 import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.serialize.SerializationException;
@@ -36,8 +40,14 @@ public class ConfigManager {
     private final File biomesFile;
     private final YamlConfigurationLoader biomesLoader;
     private CommentedConfigurationNode biomesRoot;
-    private Map<String, Material> biomeIcons;
+    private Map<String, ItemStack> biomeIcons;
     private Map<String, String> biomeDimensions;
+
+    // Provider configuration
+    private final File providerFile;
+    private final YamlConfigurationLoader providerLoader;
+    private CommentedConfigurationNode providerRoot;
+    private Map<String, ItemStack> providerIcons;
 
     public ConfigManager(NaturalCompass plugin) {
         this.plugin = plugin;
@@ -50,6 +60,12 @@ public class ConfigManager {
         this.biomesFile = new File(plugin.getDataFolder(), "biomes.yml");
         this.biomesLoader = YamlConfigurationLoader.builder()
                 .file(biomesFile)
+                .build();
+
+        // Initialize provider configuration
+        this.providerFile = new File(plugin.getDataFolder(), "providers.yml");
+        this.providerLoader = YamlConfigurationLoader.builder()
+                .file(providerFile)
                 .build();
     }
 
@@ -74,6 +90,18 @@ public class ConfigManager {
             loadBiomeIcons();
         } catch (ConfigurateException e) {
             plugin.getLogger().severe("Failed to load biomes.yml!");
+            e.printStackTrace();
+        }
+
+        // Load provider configuration
+        if (!providerFile.exists()) {
+            plugin.saveResource("providers.yml", false);
+        }
+        try {
+            providerRoot = providerLoader.load();
+            loadProviderIcons();
+        } catch (ConfigurateException e) {
+            plugin.getLogger().severe("Failed to load providers.yml!");
             e.printStackTrace();
         }
     }
@@ -110,16 +138,34 @@ public class ConfigManager {
             String materialName = entry.getValue().node("icon").getString();
             String dimension = entry.getValue().node("dimension").getString();
             if (materialName != null) {
-                Material material = Material.matchMaterial(materialName);
-                if (material != null) {
-                    if (material.isItem()) {
-                        biomeIcons.put(biome, material);
-                        plugin.getLogger().fine("Loaded icon for biome '" + biome + "': " + materialName);
+                if (materialName.equals("PLAYER_HEAD")) {
+                    String texture = entry.getValue().node("texture").getString();
+                    if (texture != null) {
+                        ItemStack head = new ItemStack(Material.PLAYER_HEAD);
+                        SkullMeta meta = (SkullMeta) head.getItemMeta();
+                        if (meta != null) {
+                            PlayerProfile profile = plugin.getServer().createProfile(java.util.UUID.randomUUID());
+                            profile.getProperties().add(new ProfileProperty("textures", texture));
+                            meta.setPlayerProfile(profile);
+                            head.setItemMeta(meta);
+                            biomeIcons.put(biome, head);
+                            plugin.getLogger().fine("Loaded custom head icon for biome '" + biome + "'");
+                        }
                     } else {
-                        plugin.getLogger().warning("Material '" + materialName + "' is not an item for biome '" + biome + "', using default.");
+                        plugin.getLogger().warning("No texture specified for PLAYER_HEAD icon for biome '" + biome + "', skipping.");
                     }
                 } else {
-                    plugin.getLogger().warning("Invalid material '" + materialName + "' for biome '" + biome + "', skipping.");
+                    Material material = Material.matchMaterial(materialName);
+                    if (material != null) {
+                        if (material.isItem()) {
+                            biomeIcons.put(biome, new ItemStack(material));
+                            plugin.getLogger().fine("Loaded icon for biome '" + biome + "': " + materialName);
+                        } else {
+                            plugin.getLogger().warning("Material '" + materialName + "' is not an item for biome '" + biome + "', using default.");
+                        }
+                    } else {
+                        plugin.getLogger().warning("Invalid material '" + materialName + "' for biome '" + biome + "', skipping.");
+                    }
                 }
             } else {
                 plugin.getLogger().warning("No icon specified for biome '" + biome + "', skipping.");
@@ -131,6 +177,50 @@ public class ConfigManager {
             }
         }
         plugin.getLogger().info("Loaded " + biomeIcons.size() + " biome icons.");
+    }
+
+    private void loadProviderIcons() {
+        providerIcons = new HashMap<>();
+        CommentedConfigurationNode providersNode = providerRoot.node("providers");
+        plugin.getLogger().info("Loading provider icons from providers.yml...");
+        for (Map.Entry<Object, CommentedConfigurationNode> entry : providersNode.childrenMap().entrySet()) {
+            String provider = entry.getKey().toString();
+            String materialName = entry.getValue().node("icon").getString();
+            if (materialName != null) {
+                if (materialName.equals("PLAYER_HEAD")) {
+                    String texture = entry.getValue().node("texture").getString();
+                    if (texture != null) {
+                        ItemStack head = new ItemStack(Material.PLAYER_HEAD);
+                        SkullMeta meta = (SkullMeta) head.getItemMeta();
+                        if (meta != null) {
+                            PlayerProfile profile = plugin.getServer().createProfile(java.util.UUID.randomUUID());
+                            profile.getProperties().add(new ProfileProperty("textures", texture));
+                            meta.setPlayerProfile(profile);
+                            head.setItemMeta(meta);
+                            providerIcons.put(provider, head);
+                            plugin.getLogger().fine("Loaded custom head icon for provider '" + provider + "'");
+                        }
+                    } else {
+                        plugin.getLogger().warning("No texture specified for PLAYER_HEAD icon for provider '" + provider + "', skipping.");
+                    }
+                } else {
+                    Material material = Material.matchMaterial(materialName);
+                    if (material != null) {
+                        if (material.isItem()) {
+                            providerIcons.put(provider, new ItemStack(material));
+                            plugin.getLogger().fine("Loaded icon for provider '" + provider + "': " + materialName);
+                        } else {
+                            plugin.getLogger().warning("Material '" + materialName + "' is not an item for provider '" + provider + "', using default.");
+                        }
+                    } else {
+                        plugin.getLogger().warning("Invalid material '" + materialName + "' for provider '" + provider + "', skipping.");
+                    }
+                }
+            } else {
+                plugin.getLogger().warning("No icon specified for provider '" + provider + "', skipping.");
+            }
+        }
+        plugin.getLogger().info("Loaded " + providerIcons.size() + " provider icons.");
     }
 
     public int getSearchTimeout() {
@@ -190,12 +280,16 @@ public class ConfigManager {
         }
     }
 
-    public Map<String, Material> getBiomeIcons() {
+    public Map<String, ItemStack> getBiomeIcons() {
         return biomeIcons;
     }
 
     public Map<String, String> getBiomeDimensions() {
         return biomeDimensions;
+    }
+
+    public Map<String, ItemStack> getProviderIcons() {
+        return providerIcons;
     }
 
     public void save() {
@@ -211,6 +305,14 @@ public class ConfigManager {
             biomesLoader.save(biomesRoot);
         } catch (ConfigurateException e) {
             plugin.getLogger().severe("Failed to save biomes.yml!");
+            e.printStackTrace();
+        }
+
+        // Save provider configuration
+        try {
+            providerLoader.save(providerRoot);
+        } catch (ConfigurateException e) {
+            plugin.getLogger().severe("Failed to save providers.yml!");
             e.printStackTrace();
         }
     }

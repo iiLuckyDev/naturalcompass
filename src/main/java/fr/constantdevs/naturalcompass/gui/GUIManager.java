@@ -19,18 +19,39 @@ public class GUIManager {
     }
 
     public void openBiomeSelectionGUI(Player player) {
-        BiomeSelectionGUI biomeSelectionGUI = new BiomeSelectionGUI(player);
-        biomeSelectionGUI.displayPage(0);
-        biomeSelectionGUI.open(player);
+        List<String> providers = getProvidersForDimension(player.getWorld().getEnvironment());
+        if (providers.size() > 1) {
+            openBiomeProviderSelectionGUI(player);
+        } else if (providers.size() == 1) {
+            BiomeSelectionGUI biomeSelectionGUI = new BiomeSelectionGUI(player, providers.get(0));
+            biomeSelectionGUI.displayPage(0);
+            biomeSelectionGUI.open(player);
+        } else {
+            // No biomes? Maybe do nothing or message
+            player.sendMessage(net.kyori.adventure.text.Component.text("No biomes available in this dimension.", net.kyori.adventure.text.format.NamedTextColor.RED));
+        }
+    }
+
+    public void openBiomeProviderSelectionGUI(Player player) {
+        BiomeProviderSelectionGUI gui = new BiomeProviderSelectionGUI(player.getWorld().getEnvironment());
+        gui.open(player);
     }
 
     public List<String> getBiomesForDimension(World.Environment environment) {
         return BiomeManager.getAllBiomeNamesInDimension(environment);
     }
 
+    public List<String> getBiomesForProviderAndDimension(String provider, World.Environment environment) {
+        return BiomeManager.getBiomeNamesForProviderAndDimension(provider, environment);
+    }
+
+    public List<String> getProvidersForDimension(World.Environment environment) {
+        return BiomeManager.getProvidersForDimension(environment);
+    }
+
     public void openAdminGUI(Player player) {
         Inventory gui = AdminGUI.createAdminGUI(plugin.getConfigManager());
-        Utils.addStateLore(Objects.requireNonNull(gui.getItem(14)), plugin.getConfigManager().isShowCoordinates());
+        Utils.addStateLore(Objects.requireNonNull(gui.getItem(15)), plugin.getConfigManager().isShowCoordinates());
         player.openInventory(gui);
     }
     public void openBiomeExclusionGUI(Player player, World.Environment environment) {

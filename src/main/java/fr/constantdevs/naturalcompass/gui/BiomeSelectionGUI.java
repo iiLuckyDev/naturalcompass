@@ -19,14 +19,16 @@ public class BiomeSelectionGUI extends PaginatedGUI {
 
     private final NaturalCompass plugin;
     private final List<String> biomes;
+    private final String provider;
 
-    public BiomeSelectionGUI(Player player) {
-        this(player, 0);
+    public BiomeSelectionGUI(Player player, String provider) {
+        this(player, provider, 0);
     }
 
-    public BiomeSelectionGUI(Player player, int initialPage) {
+    public BiomeSelectionGUI(Player player, String provider, int initialPage) {
         this.plugin = NaturalCompass.getInstance();
-        this.biomes = new ArrayList<>(plugin.getGuiManager().getBiomesForDimension(player.getWorld().getEnvironment()));
+        this.provider = provider;
+        this.biomes = new ArrayList<>(plugin.getGuiManager().getBiomesForProviderAndDimension(provider, player.getWorld().getEnvironment()));
         this.biomes.removeAll(plugin.getConfigManager().getExcludedBiomes());
         Collections.sort(this.biomes);
         this.totalPages = (int) Math.ceil((double) this.biomes.size() / maxItemsPerPage);
@@ -36,7 +38,7 @@ public class BiomeSelectionGUI extends PaginatedGUI {
     @Override
     public void displayPage(int page) {
         this.page = page;
-        this.inventory = Bukkit.createInventory(null, 54, Component.text("Select a Biome (" + (page + 1) + "/" + totalPages + ")"));
+        this.inventory = Bukkit.createInventory(null, 54, Component.text("Select a Biome from " + provider + " (" + (page + 1) + "/" + totalPages + ")"));
 
         addBorder();
         addNavigationButtons();
@@ -54,8 +56,7 @@ public class BiomeSelectionGUI extends PaginatedGUI {
     }
 
     private ItemStack createBiomeItem(String biomeName) {
-        Material material = Utils.getBiomeIcon(biomeName);
-        ItemStack item = new ItemStack(material);
+        ItemStack item = Utils.getBiomeIcon(biomeName);
         ItemMeta meta = item.getItemMeta();
         if (meta != null) {
             meta.displayName(Component.text(Utils.formatBiomeName(biomeName), NamedTextColor.GREEN));
@@ -72,14 +73,14 @@ public class BiomeSelectionGUI extends PaginatedGUI {
 
         if (clickedItem.isSimilar(fr.constantdevs.naturalcompass.items.ItemManager.NEXT_PAGE)) {
             if (page < totalPages - 1) {
-                BiomeSelectionGUI newGUI = new BiomeSelectionGUI(player, page + 1);
+                BiomeSelectionGUI newGUI = new BiomeSelectionGUI(player, provider, page + 1);
                 newGUI.displayPage(page + 1);
                 newGUI.open(player);
                 player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK, 1.0f, 1.0f);
             }
         } else if (clickedItem.isSimilar(fr.constantdevs.naturalcompass.items.ItemManager.PREVIOUS_PAGE)) {
             if (page > 0) {
-                BiomeSelectionGUI newGUI = new BiomeSelectionGUI(player, page - 1);
+                BiomeSelectionGUI newGUI = new BiomeSelectionGUI(player, provider, page - 1);
                 newGUI.displayPage(page - 1);
                 newGUI.open(player);
                 player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK, 1.0f, 1.0f);

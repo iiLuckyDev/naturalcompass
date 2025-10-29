@@ -30,11 +30,12 @@ public class GUIListener implements Listener {
         Component title = event.getView().title();
         String plainTitle = PlainTextComponentSerializer.plainText().serialize(title);
 
-        if (plainTitle.startsWith("Select a Biome")) {
+        if (plainTitle.startsWith("Select a Biome from ")) {
             event.setCancelled(true);
             Player player = (Player) event.getWhoClicked();
+            String provider = parseProviderFromTitle(plainTitle);
             int currentPage = parsePageFromTitle(plainTitle);
-            BiomeSelectionGUI biomeSelectionGUI = new BiomeSelectionGUI(player, currentPage);
+            BiomeSelectionGUI biomeSelectionGUI = new BiomeSelectionGUI(player, provider, currentPage);
             biomeSelectionGUI.handleClick(player, event.getCurrentItem());
         } else if (plainTitle.equals("NaturalCompass Admin")) {
             event.setCancelled(true);
@@ -86,6 +87,17 @@ public class GUIListener implements Listener {
                     plugin.getGuiManager().openBiomeExclusionGUI(player, world.getEnvironment());
                 }
             }
+        } else if (plainTitle.equals("Select Biome Provider")) {
+            event.setCancelled(true);
+            Player player = (Player) event.getWhoClicked();
+            ItemStack clickedItem = event.getCurrentItem();
+            if (clickedItem != null && clickedItem.getItemMeta() != null) {
+                String itemName = PlainTextComponentSerializer.plainText().serialize(clickedItem.getItemMeta().displayName());
+                String provider = itemName.toLowerCase(); // since display is capitalized, but map key is lowercase
+                BiomeSelectionGUI biomeSelectionGUI = new BiomeSelectionGUI(player, provider);
+                biomeSelectionGUI.displayPage(0);
+                biomeSelectionGUI.open(player);
+            }
         }
     }
 
@@ -106,5 +118,13 @@ public class GUIListener implements Listener {
             }
         }
         return 0;
+    }
+
+    private String parseProviderFromTitle(String title) {
+        // Title format: "Select a Biome from provider (currentPage/totalPages)"
+        int fromIndex = title.indexOf("from ") + 5;
+        int spaceIndex = title.indexOf(' ', fromIndex);
+        if (spaceIndex == -1) spaceIndex = title.length();
+        return title.substring(fromIndex, spaceIndex).trim();
     }
 }

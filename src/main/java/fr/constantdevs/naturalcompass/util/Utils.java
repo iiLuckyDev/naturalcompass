@@ -83,11 +83,12 @@ public class Utils {
         }
     }
 
-    public static Material getBiomeIcon(String biomeName) {
-        Material icon = NaturalCompass.getInstance().getConfigManager().getBiomeIcons().get(biomeName);
+    public static ItemStack getBiomeIcon(String biomeName) {
+        ItemStack icon = NaturalCompass.getInstance().getConfigManager().getBiomeIcons().get(biomeName);
         if (icon == null) {
             NaturalCompass.getInstance().getLogger().warning("No icon found for biome '" + biomeName + "', using default GRASS_BLOCK.");
+            return new ItemStack(Material.GRASS_BLOCK);
         }
-        return icon != null ? icon : Material.GRASS_BLOCK;
+        return icon.clone();
     }
 }
