@@ -14,17 +14,19 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class GUIManager {
 
     private final NaturalCompass plugin;
-    private BiomeExclusionGUI biomeExclusionGUI;
+    private final Map<UUID, BiomeExclusionGUI> exclusionGUIs = new HashMap<>();
 
     public GUIManager(NaturalCompass plugin) {
         this.plugin = plugin;
-        this.biomeExclusionGUI = new BiomeExclusionGUI(plugin);
     }
 
     public void openBiomeSelectionGUI(Player player) {
@@ -44,10 +46,7 @@ public class GUIManager {
                         "minecraft:ocean", "minecraft:deep_ocean", "minecraft:cold_ocean", "minecraft:lukewarm_ocean",
                         "minecraft:warm_ocean", "minecraft:deep_cold_ocean", "minecraft:deep_lukewarm_ocean",
                         "minecraft:deep_warm_ocean", "minecraft:dripstone_caves", "minecraft:lush_caves",
-                        "minecraft:crimson_forest", "minecraft:soul_sand_valley", "minecraft:basalt_deltas",
-                        "minecraft:nether_wastes", "minecraft:the_end", "minecraft:end_highlands",
-                        "minecraft:end_midlands", "minecraft:end_barrens", "minecraft:cherry_grove",
-                        "minecraft:pale_garden");
+                        "minecraft:cherry_grove", "minecraft:pale_garden");
             case NETHER:
                 return Arrays.asList("minecraft:crimson_forest", "minecraft:soul_sand_valley",
                         "minecraft:basalt_deltas", "minecraft:nether_wastes", "minecraft:warped_forest");
@@ -64,15 +63,21 @@ public class GUIManager {
         player.openInventory(gui);
     }
     public void openBiomeExclusionGUI(Player player) {
+        BiomeExclusionGUI biomeExclusionGUI = exclusionGUIs.computeIfAbsent(player.getUniqueId(), uuid -> new BiomeExclusionGUI(plugin, player));
+        biomeExclusionGUI.loadBiomes(player);
         biomeExclusionGUI.displayPage(0);
         biomeExclusionGUI.open(player);
     }
 
-    public BiomeExclusionGUI getBiomeExclusionGUI() {
-        return biomeExclusionGUI;
+    public BiomeExclusionGUI getBiomeExclusionGUI(Player player) {
+        return exclusionGUIs.get(player.getUniqueId());
     }
 
-    public void setBiomeExclusionGUI(BiomeExclusionGUI biomeExclusionGUI) {
-        this.biomeExclusionGUI = biomeExclusionGUI;
+    public void setBiomeExclusionGUI(Player player, BiomeExclusionGUI biomeExclusionGUI) {
+        exclusionGUIs.put(player.getUniqueId(), biomeExclusionGUI);
+    }
+
+    public Map<UUID, BiomeExclusionGUI> getExclusionGUIs() {
+        return exclusionGUIs;
     }
 }

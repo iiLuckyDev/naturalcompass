@@ -23,17 +23,16 @@ public class BiomeExclusionGUI extends PaginatedGUI {
     private final ConfigManager configManager;
     private final List<String> biomes;
 
-    public BiomeExclusionGUI(NaturalCompass plugin) {
+    public BiomeExclusionGUI(NaturalCompass plugin, Player player) {
         this.plugin = plugin;
         this.configManager = plugin.getConfigManager();
         this.biomes = new ArrayList<>();
+        loadBiomes(player);
     }
 
-    public void loadBiomes() {
+    public void loadBiomes(Player player) {
         this.biomes.clear();
-        this.biomes.addAll(NaturalCompass.getInstance().getGuiManager().getBiomesForDimension(org.bukkit.World.Environment.NORMAL));
-        this.biomes.addAll(NaturalCompass.getInstance().getGuiManager().getBiomesForDimension(org.bukkit.World.Environment.NETHER));
-        this.biomes.addAll(NaturalCompass.getInstance().getGuiManager().getBiomesForDimension(org.bukkit.World.Environment.THE_END));
+        this.biomes.addAll(NaturalCompass.getInstance().getGuiManager().getBiomesForDimension(player.getWorld().getEnvironment()));
         Collections.sort(this.biomes);
         this.totalPages = (int) Math.ceil((double) this.biomes.size() / maxItemsPerPage);
     }
@@ -59,7 +58,7 @@ public class BiomeExclusionGUI extends PaginatedGUI {
     }
 
     private ItemStack createBiomeItem(String biomeName, boolean excluded) {
-        ItemStack item = new ItemStack(excluded ? Material.BARRIER : Material.GRASS_BLOCK);
+        ItemStack item = new ItemStack(excluded ? Material.BARRIER : Utils.getBiomeIcon(biomeName));
         ItemMeta meta = item.getItemMeta();
 
         if (meta != null) {
@@ -90,7 +89,8 @@ public class BiomeExclusionGUI extends PaginatedGUI {
             return;
         }
 
-        if (clickedItem.getType() != Material.GRASS_BLOCK && clickedItem.getType() != Material.BARRIER) return;
+        if (clickedItem.getType() == Material.BLACK_STAINED_GLASS_PANE) return;
+
 
         ItemMeta meta = clickedItem.getItemMeta();
         if (meta == null || !meta.hasDisplayName()) return;
@@ -110,10 +110,12 @@ public class BiomeExclusionGUI extends PaginatedGUI {
         plugin.getLogger().info("Excluded biomes list updated in config.yml.");
 
         // Refresh GUI for everyone who has it open
-        for (Player p : Bukkit.getOnlinePlayers()) {
-            if (p.getOpenInventory().getTitle().startsWith("Biome Exclusion")) {
-                plugin.getGuiManager().getBiomeExclusionGUI().displayPage(page);
-                plugin.getGuiManager().getBiomeExclusionGUI().open(p);
+        for (var entry : plugin.getGuiManager().getExclusionGUIs().entrySet()) {
+            BiomeExclusionGUI gui = entry.getValue();
+            gui.displayPage(gui.page);
+            Player p = Bukkit.getPlayer(entry.getKey());
+            if (p != null) {
+                gui.open(p);
             }
         }
     }

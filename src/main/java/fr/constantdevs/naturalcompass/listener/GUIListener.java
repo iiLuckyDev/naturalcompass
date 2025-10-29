@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.ItemStack;
 import org.spongepowered.configurate.serialize.SerializationException;
 
@@ -70,7 +71,12 @@ public class GUIListener implements Listener {
             event.setCancelled(true);
             Player player = (Player) event.getWhoClicked();
             ItemStack clickedItem = event.getCurrentItem();
-            plugin.getGuiManager().getBiomeExclusionGUI().handleClick(player, event.getCurrentItem());
+            plugin.getGuiManager().getBiomeExclusionGUI(player).handleClick(player, event.getCurrentItem());
         }
+    }
+
+    @EventHandler
+    public void onInventoryClose(InventoryCloseEvent event) {
+        // Removed GUI removal to prevent null reference during programmatic refresh
     }
 }
