@@ -5,6 +5,7 @@ import io.papermc.paper.datacomponent.item.CustomModelData;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -19,12 +20,14 @@ import java.util.List;
 public class ItemManager {
 
     private final NamespacedKey tierKey;
+    private final NaturalCompass plugin;
 
     public static final ItemStack PREVIOUS_PAGE = createButton("Previous Page");
     public static final ItemStack NEXT_PAGE = createButton("Next Page");
 
 
     public ItemManager(NaturalCompass plugin) {
+        this.plugin = plugin;
         this.tierKey = new NamespacedKey(plugin, "compass_tier");
     }
 
@@ -34,12 +37,15 @@ public class ItemManager {
 
         if (meta != null) {
             // Set display name and lore based on tier
-            String tierName = getTierName(tier);
-            NamedTextColor tierColor = getTierColor(tier);
-            meta.displayName(Component.text(tierName + " Compass", tierColor).decoration(TextDecoration.ITALIC, false));
+            String nameString = plugin.getConfig().getString("display.tiers.tier" + tier + ".name", "<green>Natural Compass</green>");
+            Component displayName = MiniMessage.miniMessage().deserialize(nameString).decoration(TextDecoration.ITALIC, false);
+            meta.displayName(displayName);
+
+            List<String> loreStrings = plugin.getConfig().getStringList("display.tiers.tier" + tier + ".lore");
             List<Component> lore = new ArrayList<>();
-            lore.add(Component.text("Tier " + tier + " - " + getTierName(tier), NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false));
-            lore.add(Component.text("Search Radius: " + getTierRadius(tier) + " blocks", NamedTextColor.AQUA).decoration(TextDecoration.ITALIC, false));
+            for (String loreLine : loreStrings) {
+                lore.add(MiniMessage.miniMessage().deserialize(loreLine).decoration(TextDecoration.ITALIC, false));
+            }
             lore.add(Component.empty());
             lore.add(Component.text("Right-click to select a biome.", NamedTextColor.YELLOW).decoration(TextDecoration.ITALIC, false));
             lore.add(Component.text("Left-click to find it.", NamedTextColor.YELLOW).decoration(TextDecoration.ITALIC, false));
@@ -133,38 +139,6 @@ public class ItemManager {
         return playerAngle - targetAngle;
     }
 
-    private String getTierName(int tier) {
-        return switch (tier) {
-            case 1 -> "Basic";
-            case 2 -> "Advanced";
-            case 3 -> "Expert";
-            case 4 -> "Master";
-            case 5 -> "Legendary";
-            default -> "Unknown";
-        };
-    }
-
-    private NamedTextColor getTierColor(int tier) {
-        return switch (tier) {
-            case 1 -> NamedTextColor.WHITE;
-            case 2 -> NamedTextColor.GREEN;
-            case 3 -> NamedTextColor.BLUE;
-            case 4 -> NamedTextColor.LIGHT_PURPLE;
-            case 5 -> NamedTextColor.GOLD;
-            default -> NamedTextColor.GRAY;
-        };
-    }
-
-    private int getTierRadius(int tier) {
-        return switch (tier) {
-            case 1 -> 1000;
-            case 2 -> 2500;
-            case 3 -> 5000;
-            case 4 -> 10000;
-            case 5 -> 25000;
-            default -> 0;
-        };
-    }
 
     private static ItemStack createButton(String displayName) {
         ItemStack item = new ItemStack(Material.ARROW);

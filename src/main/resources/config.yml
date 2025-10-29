@@ -13,6 +13,32 @@ display:
   messages:
     searching: true
     found: true
+  tiers:
+    tier1:
+      name: "<green>Natural Compass</green>"
+      lore:
+        - "<white>Tier 1 - Basic</white>"
+        - "<gray>Search radius: 1000 blocks</gray>"
+    tier2:
+      name: "<green>Natural Compass</green>"
+      lore:
+        - "<yellow>Tier 2 - Advanced</yellow>"
+        - "<gray>Search radius: 2500 blocks</gray>"
+    tier3:
+      name: "<green>Natural Compass</green>"
+      lore:
+        - "<green>Tier 3 - Expert</green>"
+        - "<gray>Search radius: 5000 blocks</gray>"
+    tier4:
+      name: "<green>Natural Compass</green>"
+      lore:
+        - "<blue>Tier 4 - Master</blue>"
+        - "<gray>Search radius: 10000 blocks</gray>"
+    tier5:
+      name: "<green>Natural Compass</green>"
+      lore:
+        - "<red>Tier 5 - Legendary</red>"
+        - "<gray>Search radius: 25000 blocks</gray>"
 logging:
   debug: false
   detaillogging: true # Added for detailed bug reports

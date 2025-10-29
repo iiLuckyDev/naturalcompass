@@ -1,6 +1,6 @@
 name: NaturalCompass
 version: '1.0-SNAPSHOT'
-main: fr.constantdevs.naturalcompass.NaturalCompass
+main: fr.constantdevs.NaturalCompass
 api-version: '1.21'
 commands:
   naturalcompass:
