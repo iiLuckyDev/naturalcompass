@@ -9,6 +9,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.Collections;
 import java.util.List;
 
 public class BiomeProviderSelectionGUI {
@@ -21,6 +22,7 @@ public class BiomeProviderSelectionGUI {
         this.inventory = Bukkit.createInventory(null, 27, Component.text("Select Biome Provider"));
 
         List<String> providers = fr.constantdevs.naturalcompass.biome.BiomeManager.getProvidersForDimension(environment);
+        Collections.sort(providers);
 
         // Add borders and navigation placeholders
         ItemStack border = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);

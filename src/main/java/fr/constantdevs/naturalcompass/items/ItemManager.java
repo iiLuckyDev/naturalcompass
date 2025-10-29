@@ -1,6 +1,7 @@
 package fr.constantdevs.naturalcompass.items;
 
 import fr.constantdevs.naturalcompass.NaturalCompass;
+import io.papermc.paper.datacomponent.item.CustomModelData;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -10,8 +11,11 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
+import io.papermc.paper.datacomponent.DataComponentTypes;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Collections;
 
 public class ItemManager {
 
@@ -44,10 +48,16 @@ public class ItemManager {
             // Store tier in PDC
             meta.getPersistentDataContainer().set(tierKey, PersistentDataType.INTEGER, tier);
 
-            // Set custom model data for resource pack
-            meta.setCustomModelData(1000 + tier); // Example: Tier 1 = 1001, Tier 2 = 1002
-
+            // 1. Apply all meta changes to the item FIRST.
             compass.setItemMeta(meta);
+
+            // 2. Now, add the data component to the item.
+            // This will no longer be erased by setItemMeta.
+            CustomModelData customModelData = CustomModelData.customModelData()
+                    .addString("naturecompass")
+                    .build();
+            compass.setData(DataComponentTypes.CUSTOM_MODEL_DATA, customModelData);
+
         }
 
         return compass;

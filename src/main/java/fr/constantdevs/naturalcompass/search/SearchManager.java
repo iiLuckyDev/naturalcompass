@@ -4,13 +4,11 @@ import fr.constantdevs.naturalcompass.NaturalCompass;
 import fr.constantdevs.naturalcompass.util.Utils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.NamespacedKey;
-import org.bukkit.Registry;
-import org.bukkit.Sound;
+import org.bukkit.*;
 import org.bukkit.block.Biome;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -60,6 +58,23 @@ public class SearchManager {
                 if (searchResult != null) {
                     player.setCompassTarget(searchResult.getLocation());
                     player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
+
+                    // Calculate angle and set custom model data for texture
+                    Location playerLoc = player.getLocation();
+                    double dx = searchResult.getLocation().getX() - playerLoc.getX();
+                    double dz = searchResult.getLocation().getZ() - playerLoc.getZ();
+                    double angle = Math.atan2(dz, dx) * 180 / Math.PI;
+                    if (angle < 0) angle += 360;
+                    int frame = (int) Math.round(angle / 11.25) % 32;
+
+                    ItemStack compass = player.getInventory().getItemInMainHand();
+                    if (compass != null && compass.getType() == Material.COMPASS && plugin.getItemManager().isNaturalCompass(compass)) {
+                        ItemMeta meta = compass.getItemMeta();
+                        if (meta != null) {
+                            meta.setCustomModelData(1000 + frame);
+                            compass.setItemMeta(meta);
+                        }
+                    }
 
                     Component message = Component.text("Found " + targetBiomeName + "!", NamedTextColor.GREEN);
                     if (plugin.getConfigManager().isShowCoordinates()) {
