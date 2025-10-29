@@ -14,6 +14,8 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.ItemStack;
 import org.spongepowered.configurate.serialize.SerializationException;
 
+import java.util.Objects;
+
 public class GUIListener implements Listener {
 
     private final NaturalCompass plugin;
@@ -42,7 +44,7 @@ public class GUIListener implements Listener {
                 return;
             }
 
-            String itemName = PlainTextComponentSerializer.plainText().serialize(clickedItem.getItemMeta().displayName());
+            String itemName = PlainTextComponentSerializer.plainText().serialize(Objects.requireNonNull(clickedItem.getItemMeta().displayName()));
 
             switch (itemName) {
                 case "Biome Exclusion":
@@ -70,7 +72,6 @@ public class GUIListener implements Listener {
         } else if (plainTitle.startsWith("Biome Exclusion")) {
             event.setCancelled(true);
             Player player = (Player) event.getWhoClicked();
-            ItemStack clickedItem = event.getCurrentItem();
             plugin.getGuiManager().getBiomeExclusionGUI(player).handleClick(player, event.getCurrentItem());
         }
     }

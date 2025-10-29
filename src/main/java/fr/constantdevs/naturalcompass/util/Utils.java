@@ -75,48 +75,48 @@ public class Utils {
     }
 
     public static Material getBiomeIcon(String biomeName) {
-        switch (biomeName) {
-            case "minecraft:plains": return Material.GRASS_BLOCK;
-            case "minecraft:sunflower_plains": return Material.SUNFLOWER;
-            case "minecraft:snowy_plains": return Material.SNOW_BLOCK;
-            case "minecraft:ice_spikes": return Material.ICE;
-            case "minecraft:desert": return Material.SAND;
-            case "minecraft:swamp": return Material.LILY_PAD;
-            case "minecraft:mangrove_swamp": return Material.MANGROVE_ROOTS;
-            case "minecraft:forest": return Material.OAK_LOG;
-            case "minecraft:flower_forest": return Material.POPPY;
-            case "minecraft:birch_forest": return Material.BIRCH_LOG;
-            case "minecraft:dark_forest": return Material.DARK_OAK_LOG;
-            case "minecraft:taiga": return Material.SPRUCE_LOG;
-            case "minecraft:snowy_taiga": return Material.SNOW;
-            case "minecraft:jungle": return Material.JUNGLE_LOG;
-            case "minecraft:bamboo_jungle": return Material.BAMBOO;
-            case "minecraft:badlands": return Material.RED_SAND;
-            case "minecraft:savanna": return Material.ACACIA_LOG;
-            case "minecraft:mushroom_fields": return Material.RED_MUSHROOM_BLOCK;
-            case "minecraft:mountain": return Material.STONE;
-            case "minecraft:ocean": return Material.WATER_BUCKET;
-            case "minecraft:deep_ocean": return Material.BLUE_STAINED_GLASS;
-            case "minecraft:cold_ocean": return Material.BLUE_ICE;
-            case "minecraft:lukewarm_ocean": return Material.LIGHT_BLUE_STAINED_GLASS;
-            case "minecraft:warm_ocean": return Material.YELLOW_STAINED_GLASS;
-            case "minecraft:deep_cold_ocean": return Material.PACKED_ICE;
-            case "minecraft:deep_lukewarm_ocean": return Material.CYAN_STAINED_GLASS;
-            case "minecraft:deep_warm_ocean": return Material.ORANGE_STAINED_GLASS;
-            case "minecraft:dripstone_caves": return Material.DRIPSTONE_BLOCK;
-            case "minecraft:lush_caves": return Material.MOSS_BLOCK;
-            case "minecraft:crimson_forest": return Material.CRIMSON_STEM;
-            case "minecraft:soul_sand_valley": return Material.SOUL_SAND;
-            case "minecraft:basalt_deltas": return Material.BASALT;
-            case "minecraft:nether_wastes": return Material.NETHERRACK;
-            case "minecraft:warped_forest": return Material.WARPED_STEM;
-            case "minecraft:the_end": return Material.END_STONE;
-            case "minecraft:end_highlands": return Material.END_STONE;
-            case "minecraft:end_midlands": return Material.END_STONE;
-            case "minecraft:end_barrens": return Material.END_STONE;
-            case "minecraft:cherry_grove": return Material.CHERRY_LOG;
-            case "minecraft:pale_garden": return Material.PALE_OAK_LOG;
-            default: return Material.GRASS_BLOCK;
-        }
+        return switch (biomeName) {
+            case "minecraft:plains" -> Material.GRASS_BLOCK;
+            case "minecraft:sunflower_plains" -> Material.SUNFLOWER;
+            case "minecraft:snowy_plains" -> Material.SNOW_BLOCK;
+            case "minecraft:ice_spikes" -> Material.ICE;
+            case "minecraft:desert" -> Material.SAND;
+            case "minecraft:swamp" -> Material.LILY_PAD;
+            case "minecraft:mangrove_swamp" -> Material.MANGROVE_ROOTS;
+            case "minecraft:forest" -> Material.OAK_LOG;
+            case "minecraft:flower_forest" -> Material.POPPY;
+            case "minecraft:birch_forest" -> Material.BIRCH_LOG;
+            case "minecraft:dark_forest" -> Material.DARK_OAK_LOG;
+            case "minecraft:taiga" -> Material.SPRUCE_LOG;
+            case "minecraft:snowy_taiga" -> Material.SNOW;
+            case "minecraft:jungle" -> Material.JUNGLE_LOG;
+            case "minecraft:bamboo_jungle" -> Material.BAMBOO;
+            case "minecraft:badlands" -> Material.RED_SAND;
+            case "minecraft:savanna" -> Material.ACACIA_LOG;
+            case "minecraft:mushroom_fields" -> Material.RED_MUSHROOM_BLOCK;
+            case "minecraft:mountain" -> Material.STONE;
+            case "minecraft:ocean" -> Material.WATER_BUCKET;
+            case "minecraft:deep_ocean" -> Material.BLUE_STAINED_GLASS;
+            case "minecraft:cold_ocean" -> Material.BLUE_ICE;
+            case "minecraft:lukewarm_ocean" -> Material.LIGHT_BLUE_STAINED_GLASS;
+            case "minecraft:warm_ocean" -> Material.YELLOW_STAINED_GLASS;
+            case "minecraft:deep_cold_ocean" -> Material.PACKED_ICE;
+            case "minecraft:deep_lukewarm_ocean" -> Material.CYAN_STAINED_GLASS;
+            case "minecraft:deep_warm_ocean" -> Material.ORANGE_STAINED_GLASS;
+            case "minecraft:dripstone_caves" -> Material.DRIPSTONE_BLOCK;
+            case "minecraft:lush_caves" -> Material.MOSS_BLOCK;
+            case "minecraft:crimson_forest" -> Material.CRIMSON_STEM;
+            case "minecraft:soul_sand_valley" -> Material.SOUL_SAND;
+            case "minecraft:basalt_deltas" -> Material.BASALT;
+            case "minecraft:nether_wastes" -> Material.NETHERRACK;
+            case "minecraft:warped_forest" -> Material.WARPED_STEM;
+            case "minecraft:the_end" -> Material.END_STONE;
+            case "minecraft:end_highlands" -> Material.END_STONE;
+            case "minecraft:end_midlands" -> Material.END_STONE;
+            case "minecraft:end_barrens" -> Material.END_STONE;
+            case "minecraft:cherry_grove" -> Material.CHERRY_LOG;
+            case "minecraft:pale_garden" -> Material.PALE_OAK_LOG;
+            default -> Material.GRASS_BLOCK;
+        };
     }
 }
