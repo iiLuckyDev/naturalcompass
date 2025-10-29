@@ -1,6 +1,6 @@
 package fr.constantdevs.naturalcompass.items;
 
-import fr.constantdevs.naturalcompass.NaturalCompass;
+import fr.constantdevs.NaturalCompass;
 import io.papermc.paper.datacomponent.item.CustomModelData;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -12,24 +12,19 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
-
 import io.papermc.paper.datacomponent.DataComponentTypes;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Collections;
 
 public class ItemManager {
 
-    private final NaturalCompass plugin;
     private final NamespacedKey tierKey;
 
-    public static final ItemStack PREVIOUS_PAGE = createButton(Material.ARROW, "Previous Page");
-    public static final ItemStack NEXT_PAGE = createButton(Material.ARROW, "Next Page");
+    public static final ItemStack PREVIOUS_PAGE = createButton("Previous Page");
+    public static final ItemStack NEXT_PAGE = createButton("Next Page");
 
 
     public ItemManager(NaturalCompass plugin) {
-        this.plugin = plugin;
         this.tierKey = new NamespacedKey(plugin, "compass_tier");
     }
 
@@ -111,6 +106,15 @@ public class ItemManager {
         // We use atan2(-dz, dx) to get a standard mathematical angle.
         // In Minecraft: +dx is East (X-axis), -dz is North (Y-axis)
         // This gives 0 = East, 90 = North, 180 = West, -90/270 = South
+        double relativeAngle = getRelativeAngle(player, dz, dx);
+
+        // 5. Normalize the angle to a 0-360 range and reverse by 180 degrees
+        // (e.g., -90 degrees becomes 270 degrees)
+        // This makes it easy to calculate the frame (0-31).
+        return ((relativeAngle + 180) + 360) % 360;
+    }
+
+    private static double getRelativeAngle(Player player, double dz, double dx) {
         double targetAngle = Math.toDegrees(Math.atan2(-dz, dx));
 
         // 2. Get the player's yaw
@@ -126,13 +130,9 @@ public class ItemManager {
         // This is the angle from the player's line-of-sight to the target.
         // If they are equal, the result is 0 (straight ahead).
         // A negative result is to the left, a positive result is to the right.
-        double relativeAngle = playerAngle - targetAngle;
-
-        // 5. Normalize the angle to a 0-360 range and reverse by 180 degrees
-        // (e.g., -90 degrees becomes 270 degrees)
-        // This makes it easy to calculate the frame (0-31).
-        return ((relativeAngle + 180) + 360) % 360;
+        return playerAngle - targetAngle;
     }
+
     private String getTierName(int tier) {
         return switch (tier) {
             case 1 -> "Basic";
@@ -166,8 +166,8 @@ public class ItemManager {
         };
     }
 
-    private static ItemStack createButton(Material material, String displayName) {
-        ItemStack item = new ItemStack(material);
+    private static ItemStack createButton(String displayName) {
+        ItemStack item = new ItemStack(Material.ARROW);
         ItemMeta meta = item.getItemMeta();
         if (meta != null) {
             meta.displayName(Component.text(displayName, NamedTextColor.GREEN).decoration(TextDecoration.ITALIC, false));

@@ -1,6 +1,6 @@
 package fr.constantdevs.naturalcompass.gui;
 
-import fr.constantdevs.naturalcompass.NaturalCompass;
+import fr.constantdevs.NaturalCompass;
 import fr.constantdevs.naturalcompass.biome.BiomeManager;
 import fr.constantdevs.naturalcompass.util.Utils;
 import org.bukkit.World;
@@ -23,7 +23,7 @@ public class GUIManager {
         if (providers.size() > 1) {
             openBiomeProviderSelectionGUI(player);
         } else if (providers.size() == 1) {
-            BiomeSelectionGUI biomeSelectionGUI = new BiomeSelectionGUI(player, providers.get(0));
+            BiomeSelectionGUI biomeSelectionGUI = new BiomeSelectionGUI(player, providers.getFirst());
             biomeSelectionGUI.displayPage(0);
             biomeSelectionGUI.open(player);
         } else {

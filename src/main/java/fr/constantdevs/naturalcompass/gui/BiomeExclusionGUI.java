@@ -1,6 +1,6 @@
 package fr.constantdevs.naturalcompass.gui;
 
-import fr.constantdevs.naturalcompass.NaturalCompass;
+import fr.constantdevs.NaturalCompass;
 import fr.constantdevs.naturalcompass.config.ConfigManager;
 import fr.constantdevs.naturalcompass.items.ItemManager;
 import fr.constantdevs.naturalcompass.util.Utils;
@@ -122,7 +122,7 @@ public class BiomeExclusionGUI extends PaginatedGUI {
         if (meta.hasLore()) {
             List<Component> lore = meta.lore();
             if (lore != null && !lore.isEmpty()) {
-                biomeName = Utils.componentToString(lore.get(0));
+                biomeName = Utils.componentToString(lore.getFirst());
             }
         }
         if (biomeName == null) return;

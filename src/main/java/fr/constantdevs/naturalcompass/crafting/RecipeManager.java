@@ -1,6 +1,6 @@
 package fr.constantdevs.naturalcompass.crafting;
 
-import fr.constantdevs.naturalcompass.NaturalCompass;
+import fr.constantdevs.NaturalCompass;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.ConfigurationSection;
@@ -71,9 +71,12 @@ public class RecipeManager {
         }
 
         for (String ingredientKey : ingredients.getKeys(false)) {
-            Material material = Material.getMaterial(ingredients.getString(ingredientKey));
-            if (material != null) {
-                recipe.setIngredient(ingredientKey.charAt(0), material);
+            String matName = ingredients.getString(ingredientKey);
+            if (matName != null) {
+                Material material = Material.getMaterial(matName);
+                if (material != null) {
+                    recipe.setIngredient(ingredientKey.charAt(0), material);
+                }
             }
         }
 

@@ -1,15 +1,16 @@
-package fr.constantdevs.naturalcompass;
+package fr.constantdevs;
 
 import fr.constantdevs.naturalcompass.biome.BiomeManager;
 import fr.constantdevs.naturalcompass.config.ConfigManager;
 import fr.constantdevs.naturalcompass.crafting.CraftingManager;
-import fr.constantdevs.naturalcompass.gui.BiomeExclusionGUI;
 import fr.constantdevs.naturalcompass.gui.GUIManager;
 import fr.constantdevs.naturalcompass.items.ItemManager;
 import fr.constantdevs.naturalcompass.listener.CompassInteractionListener;
 import fr.constantdevs.naturalcompass.listener.GUIListener;
 import fr.constantdevs.naturalcompass.search.SearchManager;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.Objects;
 
 public final class NaturalCompass extends JavaPlugin {
 
@@ -42,7 +43,7 @@ public final class NaturalCompass extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new fr.constantdevs.naturalcompass.listener.PlayerMovementListener(this), this);
 
         // Register command
-        getCommand("naturalcompass").setExecutor(new fr.constantdevs.naturalcompass.command.NaturalCompassCommand(this));
+        Objects.requireNonNull(getCommand("naturalcompass")).setExecutor(new fr.constantdevs.naturalcompass.command.NaturalCompassCommand(this));
 
         getLogger().info("NaturalCompass has been enabled!");
     }
@@ -69,10 +70,6 @@ public final class NaturalCompass extends JavaPlugin {
 
     public ItemManager getItemManager() {
         return itemManager;
-    }
-
-    public CraftingManager getCraftingManager() {
-        return craftingManager;
     }
 
     public GUIManager getGuiManager() {

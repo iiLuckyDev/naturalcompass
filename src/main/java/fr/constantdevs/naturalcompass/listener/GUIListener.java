@@ -1,6 +1,6 @@
 package fr.constantdevs.naturalcompass.listener;
 
-import fr.constantdevs.naturalcompass.NaturalCompass;
+import fr.constantdevs.NaturalCompass;
 import fr.constantdevs.naturalcompass.gui.BiomeSelectionGUI;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -17,13 +17,7 @@ import org.spongepowered.configurate.serialize.SerializationException;
 
 import java.util.Objects;
 
-public class GUIListener implements Listener {
-
-    private final NaturalCompass plugin;
-
-    public GUIListener(NaturalCompass plugin) {
-        this.plugin = plugin;
-    }
+public record GUIListener(NaturalCompass plugin) implements Listener {
 
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) throws SerializationException {
@@ -81,7 +75,7 @@ public class GUIListener implements Listener {
             Player player = (Player) event.getWhoClicked();
             ItemStack clickedItem = event.getCurrentItem();
             if (clickedItem != null && clickedItem.getItemMeta() != null) {
-                String worldName = PlainTextComponentSerializer.plainText().serialize(clickedItem.getItemMeta().displayName());
+                String worldName = PlainTextComponentSerializer.plainText().serialize(Objects.requireNonNull(clickedItem.getItemMeta().displayName()));
                 World world = plugin.getServer().getWorld(worldName);
                 if (world != null) {
                     plugin.getGuiManager().openBiomeExclusionGUI(player, world.getEnvironment());
@@ -92,7 +86,7 @@ public class GUIListener implements Listener {
             Player player = (Player) event.getWhoClicked();
             ItemStack clickedItem = event.getCurrentItem();
             if (clickedItem != null && clickedItem.getItemMeta() != null) {
-                String itemName = PlainTextComponentSerializer.plainText().serialize(clickedItem.getItemMeta().displayName());
+                String itemName = PlainTextComponentSerializer.plainText().serialize(Objects.requireNonNull(clickedItem.getItemMeta().displayName()));
                 String provider = itemName.toLowerCase(); // since display is capitalized, but map key is lowercase
                 BiomeSelectionGUI biomeSelectionGUI = new BiomeSelectionGUI(player, provider);
                 biomeSelectionGUI.displayPage(0);

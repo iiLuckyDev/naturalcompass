@@ -1,5 +1,6 @@
 package fr.constantdevs.naturalcompass.gui;
 
+import fr.constantdevs.NaturalCompass;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -15,10 +16,8 @@ import java.util.List;
 public class BiomeProviderSelectionGUI {
 
     private final Inventory inventory;
-    private final World.Environment environment;
 
     public BiomeProviderSelectionGUI(World.Environment environment) {
-        this.environment = environment;
         this.inventory = Bukkit.createInventory(null, 27, Component.text("Select Biome Provider"));
 
         List<String> providers = fr.constantdevs.naturalcompass.biome.BiomeManager.getProvidersForDimension(environment);
@@ -64,7 +63,7 @@ public class BiomeProviderSelectionGUI {
     }
 
     private ItemStack getProviderIcon(String provider) {
-        ItemStack icon = fr.constantdevs.naturalcompass.NaturalCompass.getInstance().getConfigManager().getProviderIcons().get(provider);
+        ItemStack icon = NaturalCompass.getInstance().getConfigManager().getProviderIcons().get(provider);
         return icon != null ? icon.clone() : new ItemStack(Material.STONE);
     }
 

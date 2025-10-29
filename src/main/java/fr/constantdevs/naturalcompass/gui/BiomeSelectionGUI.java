@@ -1,6 +1,6 @@
 package fr.constantdevs.naturalcompass.gui;
 
-import fr.constantdevs.naturalcompass.NaturalCompass;
+import fr.constantdevs.NaturalCompass;
 import fr.constantdevs.naturalcompass.util.Utils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -93,7 +93,7 @@ public class BiomeSelectionGUI extends PaginatedGUI {
             if (meta.hasLore()) {
                 List<Component> lore = meta.lore();
                 if (lore != null && !lore.isEmpty()) {
-                    biomeName = Utils.componentToString(lore.get(0));
+                    biomeName = Utils.componentToString(lore.getFirst());
                 }
             }
             if (biomeName != null) {

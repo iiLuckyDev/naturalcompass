@@ -1,18 +1,12 @@
 package fr.constantdevs.naturalcompass.listener;
 
-import fr.constantdevs.naturalcompass.NaturalCompass;
+import fr.constantdevs.NaturalCompass;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
-public class CompassInteractionListener implements Listener {
-
-    private final NaturalCompass plugin;
-
-    public CompassInteractionListener(NaturalCompass plugin) {
-        this.plugin = plugin;
-    }
+public record CompassInteractionListener(NaturalCompass plugin) implements Listener {
 
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {

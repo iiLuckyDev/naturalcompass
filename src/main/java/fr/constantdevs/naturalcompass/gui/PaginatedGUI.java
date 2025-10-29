@@ -1,12 +1,9 @@
 package fr.constantdevs.naturalcompass.gui;
 
 import fr.constantdevs.naturalcompass.items.ItemManager;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-
-import java.util.List;
 
 public abstract class PaginatedGUI {
 

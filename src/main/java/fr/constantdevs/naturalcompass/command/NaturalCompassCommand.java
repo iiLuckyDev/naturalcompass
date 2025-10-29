@@ -1,6 +1,6 @@
 package fr.constantdevs.naturalcompass.command;
 
-import fr.constantdevs.naturalcompass.NaturalCompass;
+import fr.constantdevs.NaturalCompass;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.command.Command;
@@ -12,13 +12,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public class NaturalCompassCommand implements CommandExecutor, TabCompleter {
-
-    private final NaturalCompass plugin;
-
-    public NaturalCompassCommand(NaturalCompass plugin) {
-        this.plugin = plugin;
-    }
+public record NaturalCompassCommand(NaturalCompass plugin) implements CommandExecutor, TabCompleter {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {

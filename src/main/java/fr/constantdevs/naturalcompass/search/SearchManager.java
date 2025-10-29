@@ -1,19 +1,21 @@
 package fr.constantdevs.naturalcompass.search;
 
-import fr.constantdevs.naturalcompass.NaturalCompass;
+import fr.constantdevs.NaturalCompass;
 import fr.constantdevs.naturalcompass.util.Utils;
+import io.papermc.paper.registry.RegistryAccess;
+import io.papermc.paper.registry.RegistryKey;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.*;
 import org.bukkit.block.Biome;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.scheduler.BukkitTask;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-import org.bukkit.scheduler.BukkitTask;
 
 public class SearchManager {
 
@@ -43,7 +45,8 @@ public class SearchManager {
             player.sendMessage(Component.text("Invalid biome: " + targetBiomeName, NamedTextColor.RED));
             return;
         }
-        Biome targetBiome = Registry.BIOME.get(key);
+        Registry<@NotNull Biome> biomeRegistry = RegistryAccess.registryAccess().getRegistry(RegistryKey.BIOME);
+        Biome targetBiome = biomeRegistry.get(key);
         if (targetBiome == null) {
             player.sendMessage(Component.text("Invalid biome: " + targetBiomeName, NamedTextColor.RED));
             return;
@@ -65,7 +68,7 @@ public class SearchManager {
 
                     targetLocations.put(player.getUniqueId(), searchResult.getLocation());
                     ItemStack compass = player.getInventory().getItemInMainHand();
-                    if (compass != null && compass.getType() == Material.COMPASS && plugin.getItemManager().isNaturalCompass(compass)) {
+                    if (compass.getType() == Material.COMPASS && plugin.getItemManager().isNaturalCompass(compass)) {
                         plugin.getItemManager().updateCompassRotation(compass, searchResult.getLocation(), player);
                         startRotationTask(player);
                     }
@@ -88,10 +91,9 @@ public class SearchManager {
         stopRotationTask(playerId);
 
         Location targetLocation = player.getCompassTarget();
-        if (targetLocation == null) return;
 
         ItemStack mainHand = player.getInventory().getItemInMainHand();
-        if (mainHand == null || !plugin.getItemManager().isNaturalCompass(mainHand)) return;
+        if (!plugin.getItemManager().isNaturalCompass(mainHand)) return;
 
         BukkitTask task = Bukkit.getScheduler().runTaskTimer(plugin, () -> {
             if (!player.isOnline()) {
@@ -100,7 +102,7 @@ public class SearchManager {
             }
 
             ItemStack currentMainHand = player.getInventory().getItemInMainHand();
-            if (currentMainHand == null || !plugin.getItemManager().isNaturalCompass(currentMainHand)) {
+            if (!plugin.getItemManager().isNaturalCompass(currentMainHand)) {
                 stopRotationTask(playerId);
                 return;
             }

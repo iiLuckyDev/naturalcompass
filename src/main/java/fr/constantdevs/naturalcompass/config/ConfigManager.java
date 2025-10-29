@@ -2,7 +2,7 @@ package fr.constantdevs.naturalcompass.config;
 
 import com.destroystokyo.paper.profile.PlayerProfile;
 import com.destroystokyo.paper.profile.ProfileProperty;
-import fr.constantdevs.naturalcompass.NaturalCompass;
+import fr.constantdevs.NaturalCompass;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
@@ -12,11 +12,8 @@ import org.spongepowered.configurate.serialize.SerializationException;
 import org.spongepowered.configurate.yaml.YamlConfigurationLoader;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.logging.Level;
 
 public class ConfigManager {
 
@@ -25,7 +22,7 @@ public class ConfigManager {
     private final YamlConfigurationLoader loader;
     private CommentedConfigurationNode root;
 
-    // Configuration values
+    // Configuration value
     private int searchTimeout;
     private List<Integer> tierRadii;
     private boolean showCoordinates;
@@ -77,8 +74,7 @@ public class ConfigManager {
             root = loader.load();
             loadValues();
         } catch (ConfigurateException e) {
-            plugin.getLogger().severe("Failed to load config.yml!");
-            e.printStackTrace();
+            plugin.getLogger().log(Level.SEVERE, "Failed to load config.yml!", e);
         }
 
         // Load biomes configuration
@@ -89,8 +85,7 @@ public class ConfigManager {
             biomesRoot = biomesLoader.load();
             loadBiomeIcons();
         } catch (ConfigurateException e) {
-            plugin.getLogger().severe("Failed to load biomes.yml!");
-            e.printStackTrace();
+            plugin.getLogger().log(Level.SEVERE, "Failed to load biomes.yml!", e);
         }
 
         // Load provider configuration
@@ -101,8 +96,7 @@ public class ConfigManager {
             providerRoot = providerLoader.load();
             loadProviderIcons();
         } catch (ConfigurateException e) {
-            plugin.getLogger().severe("Failed to load providers.yml!");
-            e.printStackTrace();
+            plugin.getLogger().log(Level.SEVERE, "Failed to load providers.yml!", e);
         }
     }
 
@@ -170,11 +164,7 @@ public class ConfigManager {
             } else {
                 plugin.getLogger().warning("No icon specified for biome '" + biome + "', skipping.");
             }
-            if (dimension != null) {
-                biomeDimensions.put(biome, dimension);
-            } else {
-                biomeDimensions.put(biome, "overworld");
-            }
+            biomeDimensions.put(biome, Objects.requireNonNullElse(dimension, "overworld"));
         }
         plugin.getLogger().info("Loaded " + biomeIcons.size() + " biome icons.");
     }
@@ -223,32 +213,12 @@ public class ConfigManager {
         plugin.getLogger().info("Loaded " + providerIcons.size() + " provider icons.");
     }
 
-    public int getSearchTimeout() {
-        return searchTimeout;
-    }
-
     public List<Integer> getTierRadii() {
         return tierRadii;
     }
 
     public boolean isShowCoordinates() {
         return showCoordinates;
-    }
-
-    public boolean isSearchingMessageEnabled() {
-        return searchingMessageEnabled;
-    }
-
-    public boolean isFoundMessageEnabled() {
-        return foundMessageEnabled;
-    }
-
-    public boolean isDebugLogging() {
-        return debugLogging;
-    }
-
-    public boolean isDetailLogging() {
-        return detailLogging;
     }
 
     public List<String> getExcludedBiomes() {
@@ -275,8 +245,7 @@ public class ConfigManager {
             root.node("biomes", "excluded").set(excludedBiomes);
             save();
         } catch (SerializationException e) {
-            plugin.getLogger().severe("Failed to save excluded biomes!");
-            e.printStackTrace();
+            plugin.getLogger().log(Level.SEVERE, "Failed to save excluded biomes!", e);
         }
     }
 
@@ -296,24 +265,21 @@ public class ConfigManager {
         try {
             loader.save(root);
         } catch (ConfigurateException e) {
-            plugin.getLogger().severe("Failed to save config.yml!");
-            e.printStackTrace();
+            plugin.getLogger().log(Level.SEVERE, "Failed to save config.yml!", e);
         }
 
         // Save biomes configuration
         try {
             biomesLoader.save(biomesRoot);
         } catch (ConfigurateException e) {
-            plugin.getLogger().severe("Failed to save biomes.yml!");
-            e.printStackTrace();
+            plugin.getLogger().log(Level.SEVERE, "Failed to save biomes.yml!", e);
         }
 
         // Save provider configuration
         try {
             providerLoader.save(providerRoot);
         } catch (ConfigurateException e) {
-            plugin.getLogger().severe("Failed to save providers.yml!");
-            e.printStackTrace();
+            plugin.getLogger().log(Level.SEVERE, "Failed to save providers.yml!", e);
         }
     }
 }

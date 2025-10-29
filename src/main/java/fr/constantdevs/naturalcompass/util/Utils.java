@@ -1,6 +1,6 @@
 package fr.constantdevs.naturalcompass.util;
 
-import fr.constantdevs.naturalcompass.NaturalCompass;
+import fr.constantdevs.NaturalCompass;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Location;
@@ -54,15 +54,13 @@ public class Utils {
 
     public static String formatBiomeName(String biomeName) {
         String[] parts = biomeName.split(":", 2);
-        String namespace = parts[0];
         String key = parts.length > 1 ? parts[1] : biomeName;
         String[] words = key.toLowerCase().split("_");
         StringBuilder formattedKey = new StringBuilder();
         for (String word : words) {
             formattedKey.append(Character.toUpperCase(word.charAt(0))).append(word.substring(1)).append(" ");
         }
-        String formatted = formattedKey.toString().trim();
-        return formatted;
+        return formattedKey.toString().trim();
     }
 
     public static String componentToString(Component component) {
@@ -70,17 +68,6 @@ public class Utils {
             return "";
         }
         return net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer.plainText().serialize(component);
-    }
-
-    public static String revertFormattedBiomeName(String formattedName) {
-        if (formattedName.contains(": ")) {
-            String[] parts = formattedName.split(": ", 2);
-            String namespace = parts[0].toLowerCase();
-            String key = parts[1].toLowerCase().replace(" ", "_");
-            return namespace + ":" + key;
-        } else {
-            return "minecraft:" + formattedName.toLowerCase().replace(" ", "_");
-        }
     }
 
     public static ItemStack getBiomeIcon(String biomeName) {

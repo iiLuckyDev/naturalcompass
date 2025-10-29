@@ -1,10 +1,12 @@
 package fr.constantdevs.naturalcompass.biome;
 
-import fr.constantdevs.naturalcompass.NaturalCompass;
-import org.bukkit.NamespacedKey;
+import fr.constantdevs.NaturalCompass;
+import io.papermc.paper.registry.RegistryAccess;
+import io.papermc.paper.registry.RegistryKey;
 import org.bukkit.Registry;
 import org.bukkit.World;
 import org.bukkit.block.Biome;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,21 +18,10 @@ public class BiomeManager {
 
     public static void init() {
         allBiomeNames.clear();
-        allBiomeNames.addAll(Registry.BIOME.stream()
-                .map(biome -> biome.getKey().asString())
-                .collect(Collectors.toList()));
-    }
-
-    public static List<String> getBiomeNames() {
-        return allBiomeNames;
-    }
-
-    public static List<String> getFilteredBiomeNames(World.Environment dimension) {
-        List<String> excludedBiomes = NaturalCompass.getInstance().getConfigManager().getExcludedBiomes();
-        return allBiomeNames.stream()
-                .filter(biomeName -> !excludedBiomes.contains(biomeName))
-                .filter(biomeName -> isBiomeInDimension(biomeName, dimension))
-                .collect(Collectors.toList());
+        Registry<@NotNull Biome> biomeRegistry = RegistryAccess.registryAccess().getRegistry(RegistryKey.BIOME);
+        biomeRegistry.iterator().forEachRemaining(biome ->
+                allBiomeNames.add(biome.getKey().asString())
+        );
     }
 
     public static List<String> getAllBiomeNamesInDimension(World.Environment dimension) {
@@ -58,7 +49,6 @@ public class BiomeManager {
             configDim = "overworld"; // default for biomes not in config
         }
         String envString = switch (dimension) {
-            case NORMAL -> "overworld";
             case NETHER -> "nether";
             case THE_END -> "end";
             default -> "overworld";
