@@ -1,0 +1,167 @@
+{
+  "format_version": 2,
+  "items": {
+    "minecraft:compass": [
+      {
+        "bedrock_identifier": "naturalcompass:item/naturecompass_00",
+        "custom_model_data": 178,
+        "type": "legacy"
+      },
+      {
+        "bedrock_identifier": "naturalcompass:item/naturecompass_01",
+        "custom_model_data": 179,
+        "type": "legacy"
+      },
+      {
+        "bedrock_identifier": "naturalcompass:item/naturecompass_02",
+        "custom_model_data": 180,
+        "type": "legacy"
+      },
+      {
+        "bedrock_identifier": "naturalcompass:item/naturecompass_03",
+        "custom_model_data": 181,
+        "type": "legacy"
+      },
+      {
+        "bedrock_identifier": "naturalcompass:item/naturecompass_04",
+        "custom_model_data": 182,
+        "type": "legacy"
+      },
+      {
+        "bedrock_identifier": "naturalcompass:item/naturecompass_05",
+        "custom_model_data": 183,
+        "type": "legacy"
+      },
+      {
+        "bedrock_identifier": "naturalcompass:item/naturecompass_06",
+        "custom_model_data": 184,
+        "type": "legacy"
+      },
+      {
+        "bedrock_identifier": "naturalcompass:item/naturecompass_07",
+        "custom_model_data": 185,
+        "type": "legacy"
+      },
+      {
+        "bedrock_identifier": "naturalcompass:item/naturecompass_08",
+        "custom_model_data": 186,
+        "type": "legacy"
+      },
+      {
+        "bedrock_identifier": "naturalcompass:item/naturecompass_09",
+        "custom_model_data": 187,
+        "type": "legacy"
+      },
+      {
+        "bedrock_identifier": "naturalcompass:item/naturecompass_10",
+        "custom_model_data": 188,
+        "type": "legacy"
+      },
+      {
+        "bedrock_identifier": "naturalcompass:item/naturecompass_11",
+        "custom_model_data": 189,
+        "type": "legacy"
+      },
+      {
+        "bedrock_identifier": "naturalcompass:item/naturecompass_12",
+        "custom_model_data": 190,
+        "type": "legacy"
+      },
+      {
+        "bedrock_identifier": "naturalcompass:item/naturecompass_13",
+        "custom_model_data": 191,
+        "type": "legacy"
+      },
+      {
+        "bedrock_identifier": "naturalcompass:item/naturecompass_14",
+        "custom_model_data": 192,
+        "type": "legacy"
+      },
+      {
+        "bedrock_identifier": "naturalcompass:item/naturecompass_15",
+        "custom_model_data": 193,
+        "type": "legacy"
+      },
+      {
+        "bedrock_identifier": "naturalcompass:item/naturecompass_16",
+        "custom_model_data": 194,
+        "type": "legacy"
+      },
+      {
+        "bedrock_identifier": "naturalcompass:item/naturecompass_17",
+        "custom_model_data": 195,
+        "type": "legacy"
+      },
+      {
+        "bedrock_identifier": "naturalcompass:item/naturecompass_18",
+        "custom_model_data": 196,
+        "type": "legacy"
+      },
+      {
+        "bedrock_identifier": "naturalcompass:item/naturecompass_19",
+        "custom_model_data": 197,
+        "type": "legacy"
+      },
+      {
+        "bedrock_identifier": "naturalcompass:item/naturecompass_20",
+        "custom_model_data": 198,
+        "type": "legacy"
+      },
+      {
+        "bedrock_identifier": "naturalcompass:item/naturecompass_21",
+        "custom_model_data": 199,
+        "type": "legacy"
+      },
+      {
+        "bedrock_identifier": "naturalcompass:item/naturecompass_22",
+        "custom_model_data": 200,
+        "type": "legacy"
+      },
+      {
+        "bedrock_identifier": "naturalcompass:item/naturecompass_23",
+        "custom_model_data": 201,
+        "type": "legacy"
+      },
+      {
+        "bedrock_identifier": "naturalcompass:item/naturecompass_24",
+        "custom_model_data": 202,
+        "type": "legacy"
+      },
+      {
+        "bedrock_identifier": "naturalcompass:item/naturecompass_25",
+        "custom_model_data": 203,
+        "type": "legacy"
+      },
+      {
+        "bedrock_identifier": "naturalcompass:item/naturecompass_26",
+        "custom_model_data": 204,
+        "type": "legacy"
+      },
+      {
+        "bedrock_identifier": "naturalcompass:item/naturecompass_27",
+        "custom_model_data": 205,
+        "type": "legacy"
+      },
+      {
+        "bedrock_identifier": "naturalcompass:item/naturecompass_28",
+        "custom_model_data": 206,
+        "type": "legacy"
+      },
+      {
+        "bedrock_identifier": "naturalcompass:item/naturecompass_29",
+        "custom_model_data": 207,
+        "type": "legacy"
+      },
+      {
+        "bedrock_identifier": "naturalcompass:item/naturecompass_30",
+        "custom_model_data": 208,
+        "type": "legacy"
+      },
+      {
+        "bedrock_identifier": "naturalcompass:item/naturecompass_31",
+        "custom_model_data": 209,
+        "type": "legacy"
+      }
+    ]
+  }
+}

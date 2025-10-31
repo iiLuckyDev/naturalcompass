@@ -128,7 +128,7 @@ public class ConfigManager {
         biomeIcons = new HashMap<>();
         biomeDimensions = new HashMap<>();
         CommentedConfigurationNode biomesNode = biomesRoot.node("biomes");
-        plugin.getLogger().info("Loading biome icons from biomes.yml...");
+        plugin.getLogger().info("\u001B[32m[Natural Compass] 🧭 Loading biome icons from biomes.yml...\u001B[0m");
         for (Map.Entry<Object, CommentedConfigurationNode> entry : biomesNode.childrenMap().entrySet()) {
             String biome = entry.getKey().toString();
             String materialName = entry.getValue().node("icon").getString();
@@ -168,13 +168,13 @@ public class ConfigManager {
             }
             biomeDimensions.put(biome, Objects.requireNonNullElse(dimension, "overworld"));
         }
-        plugin.getLogger().info("Loaded " + biomeIcons.size() + " biome icons.");
+        plugin.getLogger().info("\u001B[32m[Natural Compass] 🧭 Loaded " + biomeIcons.size() + " biome icons.\u001B[0m");
     }
 
     private void loadProviderIcons() {
         providerIcons = new HashMap<>();
         CommentedConfigurationNode providersNode = providerRoot.node("providers");
-        plugin.getLogger().info("Loading provider icons from providers.yml...");
+        plugin.getLogger().info("\u001B[32m[Natural Compass] 🧭 Loading provider icons from providers.yml...\u001B[0m");
         for (Map.Entry<Object, CommentedConfigurationNode> entry : providersNode.childrenMap().entrySet()) {
             String provider = entry.getKey().toString();
             String materialName = entry.getValue().node("icon").getString();
@@ -212,7 +212,7 @@ public class ConfigManager {
                 plugin.getLogger().warning("No icon specified for provider '" + provider + "', skipping.");
             }
         }
-        plugin.getLogger().info("Loaded " + providerIcons.size() + " provider icons.");
+        plugin.getLogger().info("\u001B[32m[Natural Compass] 🧭 Loaded " + providerIcons.size() + " provider icons.\u001B[0m");
     }
 
     public List<Integer> getTierRadii() {

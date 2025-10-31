@@ -138,7 +138,7 @@ public class BiomeExclusionGUI extends PaginatedGUI {
         }
 
         configManager.setExcludedBiomes(excludedBiomes);
-        plugin.getLogger().info("Excluded biomes list updated in config.yml.");
+        plugin.getLogger().info("\u001B[32m[Natural Compass] 🧭 Excluded biomes list updated in config.yml.\u001B[0m");
 
         // Refresh GUI for everyone who has it open
         for (var entry : plugin.getGuiManager().getExclusionGUIs().entrySet()) {

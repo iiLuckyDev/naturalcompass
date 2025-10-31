@@ -1,0 +1,102 @@
+{
+  "resource_pack_name": "naturalcompass2",
+  "texture_name": "atlas.items",
+  "texture_data": {
+    "naturalcompass.item_naturecompass_20": {
+      "textures": "textures/item/naturecompass_20"
+    },
+    "naturalcompass.item_naturecompass_21": {
+      "textures": "textures/item/naturecompass_21"
+    },
+    "naturalcompass.item_naturecompass_22": {
+      "textures": "textures/item/naturecompass_22"
+    },
+    "naturalcompass.item_naturecompass_01": {
+      "textures": "textures/item/naturecompass_01"
+    },
+    "naturalcompass.item_naturecompass_24": {
+      "textures": "textures/item/naturecompass_24"
+    },
+    "naturalcompass.item_naturecompass_03": {
+      "textures": "textures/item/naturecompass_03"
+    },
+    "naturalcompass.item_naturecompass_26": {
+      "textures": "textures/item/naturecompass_26"
+    },
+    "naturalcompass.item_naturecompass_04": {
+      "textures": "textures/item/naturecompass_04"
+    },
+    "naturalcompass.item_naturecompass_25": {
+      "textures": "textures/item/naturecompass_25"
+    },
+    "naturalcompass.item_naturecompass_02": {
+      "textures": "textures/item/naturecompass_02"
+    },
+    "naturalcompass.item_naturecompass_23": {
+      "textures": "textures/item/naturecompass_23"
+    },
+    "naturalcompass.item_naturecompass_00": {
+      "textures": "textures/item/naturecompass_00"
+    },
+    "naturalcompass.item_naturecompass_09": {
+      "textures": "textures/item/naturecompass_09"
+    },
+    "naturalcompass.item_naturecompass_08": {
+      "textures": "textures/item/naturecompass_08"
+    },
+    "naturalcompass.item_naturecompass_07": {
+      "textures": "textures/item/naturecompass_07"
+    },
+    "naturalcompass.item_naturecompass_29": {
+      "textures": "textures/item/naturecompass_29"
+    },
+    "naturalcompass.item_naturecompass_06": {
+      "textures": "textures/item/naturecompass_06"
+    },
+    "naturalcompass.item_naturecompass_28": {
+      "textures": "textures/item/naturecompass_28"
+    },
+    "naturalcompass.item_naturecompass_05": {
+      "textures": "textures/item/naturecompass_05"
+    },
+    "naturalcompass.item_naturecompass_27": {
+      "textures": "textures/item/naturecompass_27"
+    },
+    "naturalcompass.item_naturecompass_30": {
+      "textures": "textures/item/naturecompass_30"
+    },
+    "naturalcompass.item_naturecompass_31": {
+      "textures": "textures/item/naturecompass_31"
+    },
+    "naturalcompass.item_naturecompass_10": {
+      "textures": "textures/item/naturecompass_10"
+    },
+    "naturalcompass.item_naturecompass_11": {
+      "textures": "textures/item/naturecompass_11"
+    },
+    "naturalcompass.item_naturecompass_12": {
+      "textures": "textures/item/naturecompass_12"
+    },
+    "naturalcompass.item_naturecompass_13": {
+      "textures": "textures/item/naturecompass_13"
+    },
+    "naturalcompass.item_naturecompass_14": {
+      "textures": "textures/item/naturecompass_14"
+    },
+    "naturalcompass.item_naturecompass_15": {
+      "textures": "textures/item/naturecompass_15"
+    },
+    "naturalcompass.item_naturecompass_16": {
+      "textures": "textures/item/naturecompass_16"
+    },
+    "naturalcompass.item_naturecompass_17": {
+      "textures": "textures/item/naturecompass_17"
+    },
+    "naturalcompass.item_naturecompass_18": {
+      "textures": "textures/item/naturecompass_18"
+    },
+    "naturalcompass.item_naturecompass_19": {
+      "textures": "textures/item/naturecompass_19"
+    }
+  }
+}

@@ -59,32 +59,32 @@ recipes:
   tier2:
     shape:
       - " H "
-      - "HCH"
+      - "HTH"
       - " H "
     ingredients:
       H: HEART_OF_THE_SEA
-      C: COMPASS
+      T: TIER1
   tier3:
     shape:
       - " A "
-      - "ACA"
+      - "ATA"
       - " A "
     ingredients:
       A: AMETHYST_CLUSTER
-      C: COMPASS
+      T: TIER2
   tier4:
     shape:
       - " E "
-      - "ECE"
+      - "ETE"
       - " E "
     ingredients:
       E: ECHO_SHARD
-      C: COMPASS
+      T: TIER3
   tier5:
     shape:
       - " S "
-      - "SCS"
+      - "STS"
       - " S "
     ingredients:
       S: NETHER_STAR
-      C: COMPASS
+      T: TIER4

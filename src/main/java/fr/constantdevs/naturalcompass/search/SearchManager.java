@@ -75,6 +75,8 @@ public class SearchManager {
 
         player.sendActionBar(Component.text("Searching for " + targetBiomeName + "...", NamedTextColor.YELLOW));
 
+        plugin.getLogger().info("\u001B[32m[Natural Compass] 🧭 Player " + player.getName() + " started searching for " + targetBiomeName + "\u001B[0m");
+
         searching.put(playerId, true); // Mark as searching
 
         Bukkit.getAsyncScheduler().runNow(plugin, task -> {
@@ -89,6 +91,7 @@ public class SearchManager {
                 if (!searching.getOrDefault(playerId, false)) return; // Final check
 
                 if (searchResult != null) {
+                    plugin.getLogger().info("\u001B[32m[Natural Compass] 🧭 Found " + targetBiomeName + " for " + player.getName() + " at " + searchResult.getLocation() + "\u001B[0m");
                     player.setCompassTarget(searchResult.getLocation());
                     player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
 
@@ -105,6 +108,7 @@ public class SearchManager {
                     }
                     player.sendActionBar(message);
                 } else {
+                    plugin.getLogger().info("\u001B[32m[Natural Compass] 🧭 No " + targetBiomeName + " found for " + player.getName() + " within " + radius + " blocks\u001B[0m");
                     player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_NO, 1, 1);
                     player.sendActionBar(Component.text(targetBiomeName + " not found within " + radius + " blocks.", NamedTextColor.RED));
                 }
