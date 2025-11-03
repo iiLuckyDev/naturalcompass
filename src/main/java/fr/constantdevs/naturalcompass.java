@@ -7,6 +7,7 @@ import fr.constantdevs.naturalcompass.gui.GUIManager;
 import fr.constantdevs.naturalcompass.items.ItemManager;
 import fr.constantdevs.naturalcompass.listener.CompassInteractionListener;
 import fr.constantdevs.naturalcompass.listener.GUIListener;
+import fr.constantdevs.naturalcompass.listener.PlayerQuitListener;
 import fr.constantdevs.naturalcompass.search.SearchManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -42,6 +43,7 @@ public final class NaturalCompass extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new GUIListener(this), this);
         getServer().getPluginManager().registerEvents(new fr.constantdevs.naturalcompass.listener.PlayerMovementListener(this), this);
         getServer().getPluginManager().registerEvents(new fr.constantdevs.naturalcompass.listener.PlayerJoinListener(this), this);
+        getServer().getPluginManager().registerEvents(new PlayerQuitListener(this), this);
 
         // Register command
         Objects.requireNonNull(getCommand("naturalcompass")).setExecutor(new fr.constantdevs.naturalcompass.command.NaturalCompassCommand(this));

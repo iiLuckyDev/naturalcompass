@@ -1,10 +1,15 @@
 package fr.constantdevs.naturalcompass.crafting;
 
 import fr.constantdevs.NaturalCompass;
+import io.papermc.paper.datacomponent.DataComponentTypes;
+import io.papermc.paper.datacomponent.item.CustomModelData;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.inventory.ShapedRecipe;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,7 +81,18 @@ public class RecipeManager {
                 if (matName.startsWith("TIER")) {
                     try {
                         int tierNum = Integer.parseInt(matName.substring(4));
-                        recipe.setIngredient(ingredientKey.charAt(0), plugin.getItemManager().createCompass(tierNum));
+
+                        // Créer tous les variants de boussole avec float custom model data de 178 à 209
+                        List<ItemStack> compassVariants = new ArrayList<>();
+                        for (int cmdFloat = 178; cmdFloat <= 209; cmdFloat++) {
+                            ItemStack variant = createCompassWithFloatCMD(tierNum, cmdFloat);
+                            compassVariants.add(variant);
+                        }
+
+                        // Utiliser RecipeChoice.ExactChoice avec tous les variants
+                        RecipeChoice.ExactChoice choice = new RecipeChoice.ExactChoice(compassVariants);
+                        recipe.setIngredient(ingredientKey.charAt(0), choice);
+
                     } catch (NumberFormatException e) {
                         plugin.getLogger().warning("Invalid tier reference: " + matName);
                     }
@@ -90,6 +106,24 @@ public class RecipeManager {
         }
 
         return recipe;
+    }
+
+    /**
+     * Crée une boussole avec un CustomModelData float spécifique en utilisant les Data Components
+     */
+    private ItemStack createCompassWithFloatCMD(int tier, float customModelDataFloat) {
+        // Obtenir la boussole de base du tier (avec nom, lore, persistent data, etc.)
+        ItemStack compass = plugin.getItemManager().createCompass(tier);
+
+        // Créer le CustomModelData avec la valeur float
+        CustomModelData customModelData = CustomModelData.customModelData()
+                .addFloat(customModelDataFloat)
+                .build();
+
+        // Appliquer le data component à l'item
+        compass.setData(DataComponentTypes.CUSTOM_MODEL_DATA, customModelData);
+
+        return compass;
     }
 
     public void unregisterRecipes() {
