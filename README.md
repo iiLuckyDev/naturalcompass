@@ -1,11 +1,14 @@
 # 🌿 Natural Compass — Plugin Recreation of Nature's Compass (by Chaosyr)
 
+
 [![GitHub](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/available/github_vector.svg)](https://github.com/gh-Constant/naturalcompass)
 [![Sponsor](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/donate/ghsponsors-singular_vector.svg)](https://github.com/sponsors/gh-Constant)
 
 **Natural Compass** is a Spigot/Paper plugin that brings **biome-searching functionality** to Minecraft servers, recreating the popular Forge/Fabric mod [Nature's Compass](https://www.curseforge.com/minecraft/mc-mods/natures-compass) by Chaosyr.
 
 Supports **vanilla, datapack, and modded biomes** (Terralith, Incendium), **all dimensions**, and **Bedrock players via Geyser**.
+
+![image](https://cdn.modrinth.com/data/uTWZwCXZ/images/227ebe4ff8b6e728f327f90887b3cfd5d9a50669.png)
 
 ## 🚀 Quick Installation
 
